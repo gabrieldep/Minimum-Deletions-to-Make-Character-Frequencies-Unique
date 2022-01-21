@@ -2,7 +2,7 @@
 {
     public static void Main()
     {
-        string s = "ceabaacb";
+        string s = "bbcebab";
         List<BuffItem> buff = new();
         buff.Add(new BuffItem(1, s.First()));
         for (int i = 1; i < s.Length; i++)
@@ -22,16 +22,28 @@
             }
         }
         int sumReturn = 0;
+        buff = buff.OrderByDescending(b => b.Quantidade).ToList();
 
-        for (int i = 0; i < buff.Count; i++)
+        List<int> notAllowedNumber = new()
         {
-            for (int j = 0; j < buff.Count; j++)
+            buff.First().Quantidade
+        };
+
+        for (int i = 1; i < buff.Count;)
+        {
+            if (notAllowedNumber.Contains(buff[i].Quantidade))
             {
-                if (buff[i].Quantidade == buff[j].Quantidade && buff[i].Quantidade != 0 && i != j)
-                {
-                    buff[j].Quantidade--;
-                    sumReturn++;
-                }
+                sumReturn++;
+                buff[i].Quantidade--;
+            }
+            else if(buff[i].Quantidade == 0)
+            {
+                i++;
+            }
+            else
+            {
+                notAllowedNumber.Add(buff[i].Quantidade);
+                i++;
             }
         }
         Console.WriteLine(sumReturn);

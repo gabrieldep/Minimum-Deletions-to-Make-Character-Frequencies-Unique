@@ -2,7 +2,8 @@
 {
     public static void Main()
     {
-        string s = "bbcebab";
+        Console.WriteLine("Write a word:");
+        string s = Console.ReadLine().ToLower();
         List<BuffItem> buff = new();
         buff.Add(new BuffItem(1, s.First()));
         for (int i = 1; i < s.Length; i++)
@@ -46,7 +47,7 @@
                 i++;
             }
         }
-        Console.WriteLine(sumReturn);
+        Console.WriteLine($"\nMinimum deletions to make character frequencies unique is {sumReturn}");
     }
 }
 

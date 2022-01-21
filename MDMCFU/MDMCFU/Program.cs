@@ -4,22 +4,20 @@
     {
         Console.WriteLine("Write a word:");
         string s = Console.ReadLine().ToLower();
+        List<char> orderedWord = s.OrderBy(s => s).ToList();
         List<BuffItem> buff = new();
-        buff.Add(new BuffItem(1, s.First()));
+        buff.Add(new BuffItem(1, orderedWord.First()));
+        int j = 0;
         for (int i = 1; i < s.Length; i++)
         {
-            bool isInBuff = false;
-            for (int j = 0; j < buff.Count; j++)
+            if (buff[j].Caractere == orderedWord[i])
             {
-                if (buff[j].Caractere == s[i])
-                {
-                    isInBuff = true;
-                    buff[j].Quantidade++;
-                }
+                buff[j].Quantidade++;
             }
-            if (!isInBuff)
+            else
             {
-                buff.Add(new BuffItem(1, s[i]));
+                buff.Add(new BuffItem(1, orderedWord[i]));
+                j++;
             }
         }
         int sumReturn = 0;
@@ -37,7 +35,7 @@
                 sumReturn++;
                 buff[i].Quantidade--;
             }
-            else if(buff[i].Quantidade == 0)
+            else if (buff[i].Quantidade == 0)
             {
                 i++;
             }

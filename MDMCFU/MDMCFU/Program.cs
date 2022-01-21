@@ -5,43 +5,43 @@
         Console.WriteLine("Write a word:");
         string s = Console.ReadLine().ToLower();
         List<char> orderedWord = s.OrderBy(s => s).ToList();
-        List<BuffItem> buff = new();
-        buff.Add(new BuffItem(1, orderedWord.First()));
+        List<BufferItem> buffer = new();
+        buffer.Add(new BufferItem(1, orderedWord.First()));
         int j = 0;
         for (int i = 1; i < s.Length; i++)
         {
-            if (buff[j].Caractere == orderedWord[i])
+            if (buffer[j].Caractere == orderedWord[i])
             {
-                buff[j].Quantidade++;
+                buffer[j].Quantidade++;
             }
             else
             {
-                buff.Add(new BuffItem(1, orderedWord[i]));
+                buffer.Add(new BufferItem(1, orderedWord[i]));
                 j++;
             }
         }
         int sumReturn = 0;
-        buff = buff.OrderByDescending(b => b.Quantidade).ToList();
+        buffer = buffer.OrderByDescending(b => b.Quantidade).ToList();
 
         List<int> notAllowedNumber = new()
         {
-            buff.First().Quantidade
+            buffer.First().Quantidade
         };
 
-        for (int i = 1; i < buff.Count;)
+        for (int i = 1; i < buffer.Count;)
         {
-            if (notAllowedNumber.Contains(buff[i].Quantidade))
+            if (notAllowedNumber.Contains(buffer[i].Quantidade))
             {
                 sumReturn++;
-                buff[i].Quantidade--;
+                buffer[i].Quantidade--;
             }
-            else if (buff[i].Quantidade == 0)
+            else if (buffer[i].Quantidade == 0)
             {
                 i++;
             }
             else
             {
-                notAllowedNumber.Add(buff[i].Quantidade);
+                notAllowedNumber.Add(buffer[i].Quantidade);
                 i++;
             }
         }
@@ -49,9 +49,9 @@
     }
 }
 
-public class BuffItem
+public class BufferItem
 {
-    public BuffItem(int i, char s)
+    public BufferItem(int i, char s)
     {
         Quantidade = i;
         Caractere = s;

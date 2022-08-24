@@ -1,61 +1,69 @@
-﻿public class Problem
+﻿namespace MDMCFU
 {
-    public static void Main()
+    public class Problem
     {
-        Console.WriteLine("Write a word:");
-        string s = Console.ReadLine().ToLower();
-        List<char> orderedWord = s.OrderBy(s => s).ToList();
-        List<BufferItem> buffer = new();
-        buffer.Add(new BufferItem(1, orderedWord.First()));
-        int j = 0;
-        for (int i = 1; i < s.Length; i++)
+        public static void Main()
         {
-            if (buffer[j].Caractere == orderedWord[i])
+            Console.WriteLine("Write a word:");
+            string? s = Console.ReadLine()?.ToLower();
+            if (s == null)
             {
-                buffer[j].Quantidade++;
+                Console.Write("Palavra inválida");
+                return;
             }
-            else
-            {
-                buffer.Add(new BufferItem(1, orderedWord[i]));
-                j++;
-            }
-        }
-        int sumReturn = 0;
-        buffer = buffer.OrderByDescending(b => b.Quantidade).ToList();
 
-        List<int> notAllowedNumber = new()
-        {
-            buffer.First().Quantidade
-        };
+            var orderedWord = s.OrderBy(s => s).ToList();
+            var buffer = new List<BufferItem>
+            {
+                new(1, orderedWord.First())
+            };
 
-        for (int i = 1; i < buffer.Count;)
-        {
-            if (notAllowedNumber.Contains(buffer[i].Quantidade))
+            int j = 0;
+            for (int i = 1; i < s.Length; i++)
             {
-                sumReturn++;
-                buffer[i].Quantidade--;
+                if (buffer[j].Caractere == orderedWord[i])
+                    buffer[j].Quantidade++;
+                else
+                {
+                    buffer.Add(new BufferItem(1, orderedWord[i]));
+                    j++;
+                }
             }
-            else if (buffer[i].Quantidade == 0)
+            int sumReturn = 0;
+            buffer = buffer.OrderByDescending(b => b.Quantidade).ToList();
+
+            var notAllowedNumber = new List<int>()
             {
-                i++;
-            }
-            else
+                buffer.First().Quantidade
+            };
+
+            for (int i = 1; i < buffer.Count;)
             {
-                notAllowedNumber.Add(buffer[i].Quantidade);
-                i++;
+                if (notAllowedNumber.Contains(buffer[i].Quantidade))
+                {
+                    sumReturn++;
+                    buffer[i].Quantidade--;
+                }
+                else if (buffer[i].Quantidade == 0)
+                    i++;
+                else
+                {
+                    notAllowedNumber.Add(buffer[i].Quantidade);
+                    i++;
+                }
             }
+            Console.WriteLine($"\nMinimum deletions to make character frequencies unique is {sumReturn}");
         }
-        Console.WriteLine($"\nMinimum deletions to make character frequencies unique is {sumReturn}");
     }
-}
 
-public class BufferItem
-{
-    public BufferItem(int i, char s)
+    public class BufferItem
     {
-        Quantidade = i;
-        Caractere = s;
+        public BufferItem(int i, char s)
+        {
+            Quantidade = i;
+            Caractere = s;
+        }
+        public int Quantidade { get; set; }
+        public char Caractere { get; set; }
     }
-    public int Quantidade { get; set; }
-    public char Caractere { get; set; }
 }
